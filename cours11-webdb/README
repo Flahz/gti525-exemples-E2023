@@ -131,3 +131,20 @@ H. To perform a forEach operation
 
 db.restaurants.find().forEach( function(Object) { if (Object.grades.length > 1) printjson(Object.grades) } )
 
+docker pull mongo
+docker run --name mongodb -d -p 27017:27017 mongo
+docker ps
+docker cp C:\data\dataset.json mongodb:/tmp/
+docker cp C:\data\dataset_users.json mongodb:/tmp/
+docker exec -it mongodb mongoimport --db test --collection restaurants --file /tmp/dataset.json
+docker exec -it mongodb mongoimport --db test --collection users --file /tmp/dataset_users.json
+
+4. Connecter MongoDB Compass
+Ouvrez MongoDB Compass.
+Dans la connexion, entrez l'URI suivante :
+mongodb://localhost:27017
+Cliquez sur "Connect".
+Vous devriez voir la base de données test avec les collections restaurants et users.
+docker exec -it mongodb mongosh
+show dbs
+use test

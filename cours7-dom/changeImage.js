@@ -1,5 +1,5 @@
 var changeImages = function(id,  interval) {
-	// Écrivez votre code ici 
+	
 
 
 }
