@@ -35,7 +35,7 @@ async function waitForButtons(proms) {
         // autre fonction async
         proms.forEach( async (prom) => {
             const button = await prom
-            button.color()
+            button.color();
         })
 
         // 2) itération tableau régulière

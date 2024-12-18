@@ -1,7 +1,7 @@
-/* Module WeatherWatcher: demande périodiquement la météo
+/* Module WeatherWatcher: reçoit périodiquement la météo
    de différentes villes en utilisant le service de open-meteo,
-   et émet des événements lorsque les prévisions sont reçues */
-
+   et émet des événements lorsque les prévisions sont reçues
+*/
 import { EventEmitter } from "events"
 import fetch from 'node-fetch' // npm install node-fetch
 
@@ -11,7 +11,6 @@ function handleErrors(response) {
     return response;
 }
 
-// Construit une URL pour le service open-meteo
 function buildOpenMeteoURL(latitude, longitude) {
     return `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
 }
@@ -40,7 +39,20 @@ class WeatherWatcher {
               contexte (let that = this).
             */
 
+            this.timerIds.push( setInterval( () => {
 
+                // Lancer une requête 'fetch'
+                const url = buildOpenMeteoURL(city.latitude, city.longitude)
+                fetch(url)
+	            .then( handleErrors )
+	            .then( response => response.json() )
+	            .then( data => {
+                        // Générer l'événement
+                        //console.log("DEBUG: " + JSON.stringify(data["current_weather"]))
+                        this.emitter.emit(city.name, data["current_weather"])
+                    });
+                
+            }, city.interval))
         })
     }
     stop() {
@@ -51,4 +63,4 @@ class WeatherWatcher {
     }
 }
 
-// TODO: assurez-vous que WeatherWatcher soit exporté en tant que module ES6!
+export default WeatherWatcher;

@@ -5,12 +5,12 @@ function getRandomInt(max) {
 // Créer n boutons
 function createButtons(n) {
 
-    for (let i=0; i<n; i++) {
+    for (let i = 0; i < n; i++) {
         let p = document.createElement("P")
         let btn = document.createElement("BUTTON")
         let color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`
-        btn.appendChild( document.createTextNode( color ) )
-        btn.color = function() {
+        btn.appendChild(document.createTextNode(color))
+        btn.color = function () {
             this.style = "background-color: " + this.childNodes[0].nodeValue
         }
         p.appendChild(btn)
@@ -36,7 +36,15 @@ function getPromises() {
     const buttons = document.getElementsByTagName("button")
     let proms = []
 
-    // TODO (1)
+    for (const button of buttons) {
+        proms.push(new Promise((resolve) => {
+            button.addEventListener('click', (event) =>
+                resolve(event.target)
+            )
+        }))
+
+
+    }
 
     return proms
 }
@@ -47,7 +55,11 @@ function getPromises() {
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
 function waitForButtons(proms) {
-    // TODO (2)
+    proms.forEach((prom) => {
+        prom.then((button) => {
+            button.color()
+        })
+    })
 }
 
 // Attendre que le premier bouton ne soit cliqué
@@ -55,7 +67,8 @@ function waitForButtons(proms) {
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
 function waitForFirstButton(proms) {
-    // TODO (3)
+    Promise.race(proms)
+    .then((button) => firstClicked(button));
 }
 
 // Attendre que tous les boutons aient été cliqués
@@ -63,12 +76,13 @@ function waitForFirstButton(proms) {
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
 function waitForAllButtons(proms) {
-    // TODO (4)
+    Promise.all(proms)
+    .then(() => allClicked());
 }
 
 window.addEventListener("load", () => {
     // Créer des boutons aléatoires
-    createButtons( getRandomInt( 3 ) + 3 )
+    createButtons(getRandomInt(3) + 3)
 
     // Récupérer les promesses
     const proms = getPromises()

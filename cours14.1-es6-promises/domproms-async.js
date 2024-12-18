@@ -78,20 +78,25 @@ function getPromises() {
 // invoquant la méthode "color" sur le bouton qui a été appuyé
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
-/* <TODO> */ function waitForButtons(proms) {
+async function waitForButtons(proms) {
     
     const ordered = (getParameterByName("checked") == "true")
-
     if (ordered) {
 
         // TODO (1): l'ordre de cochage est important (il faut cocher tous
         // les éléments dans l'ordre)
-        
+        for(var prom of proms){
+            const button = await prom;
+            button.color();
+        }
         
         
     } else {
 
-        // TODO (2): l'ordre de cochage n'a pas d'importance
+        proms.forEach(async (prom) => {
+            const button = await prom;
+            button.color();
+        });
         
     }
 }
@@ -100,16 +105,18 @@ function getPromises() {
 // Invoquer la méthode firstClicked
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
-/* <TODO> */ function waitForFirstButton(proms) {
-    // TODO (3)
+async function waitForFirstButton(proms) {
+    const fButton = await Promise.race(proms);
+    firstClicked(fButton);
 }
 
 // Attendre que tous les boutons aient été cliqués
 // Invoquer la méthode allClicked
 // Note: il faut utiliser les promesses
 // Interdit: ne pas ajouter d'événement click au bouton
-/* <TODO> */ function waitForAllButtons(proms) {
-    // TODO (4)
+async function waitForAllButtons(proms) {
+    await Promise.all(proms);
+    allClicked();
 }
 
 window.addEventListener("load", () => {

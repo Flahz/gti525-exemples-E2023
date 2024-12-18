@@ -25,7 +25,7 @@ function AJAXRequest() {
 		console.log("Aborted");
 	};
 
-	xhr.send();
+	
 	xhr.send();
 }
 function swapImages(data){

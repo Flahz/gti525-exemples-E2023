@@ -1,3 +1,4 @@
+const { XMLHttpRequest } = require('xmlhttprequest');
 function AJAX(url) {
     return new Promise( (resolve, reject) => {
 	var xhr = new XMLHttpRequest();

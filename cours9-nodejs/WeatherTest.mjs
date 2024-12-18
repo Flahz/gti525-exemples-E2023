@@ -10,9 +10,9 @@ const cities = [
 
 function printWeather(cityName, currentWeather) {
     console.log(`${cityName}
-\tTempérature:${currentWeather["temperature"]}
-\tVitesse des vents:${currentWeather["windspeed"]}
-\tDirection des vents:${currentWeather["winddirection"]}`)
+\tTempérature: ${currentWeather.temperature}
+\tVitesse des vents: ${currentWeather.windspeed}
+\tDirection des vents: ${currentWeather.winddirection}`);
 }
 
 // Créer un nouvel EventEmitter
@@ -29,3 +29,8 @@ setTimeout( () => watcher.stop(), 20000)
   villes dans le flux d'événements. Imprimer les données météorologiques
   (invoquez printWeather).
 */
+cities.forEach( (city) => {
+  emitter.on(city.name, (data) => {
+      printWeather(city.name, data)
+  })
+})
