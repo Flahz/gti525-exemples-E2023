@@ -131,6 +131,7 @@ H. To perform a forEach operation
 
 db.restaurants.find().forEach( function(Object) { if (Object.grades.length > 1) printjson(Object.grades) } )
 db.restaurants.find().forEach( function(Object) { if (Object.name == "Tim Hortons") printjson(Object.grades) } )
+db.restaurants.find().forEach( function(Object) { if (Object.name == "Mcdonald'S") printjson(Object.grades) } )
 
 
 
